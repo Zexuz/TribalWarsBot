@@ -1,10 +1,8 @@
 ﻿using System;
 
-using TribalWarsBot.Screens;
+namespace TribalWarsBot.Screens.Structures {
 
-namespace TribalWarsBot.Buildings {
-
-    public abstract class Building:Screen {
+    public abstract class Building {
 
         public abstract int CurrentLevel { get; }
         public abstract int MaxLevel { get; }

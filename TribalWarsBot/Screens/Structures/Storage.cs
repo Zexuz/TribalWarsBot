@@ -1,8 +1,6 @@
 ﻿using System;
 
-using TribalWarsBot.Buildings;
-
-namespace TribalWarsBot.Screens.Buildings {
+namespace TribalWarsBot.Screens.Structures {
 
     public class Storage : Building {
 
@@ -16,8 +14,8 @@ namespace TribalWarsBot.Screens.Buildings {
         public override string UpgradeToNextLevelLink { get; }
 
 
-        public override Screens GetType() {
-            return Screens.Storage;
+        public new Buildings GetType() {
+            return Buildings.Storage;
         }
 
     }
