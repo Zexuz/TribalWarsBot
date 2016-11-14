@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TribalWarsBot.ValueObjects {
+namespace TribalWarsBot.Domain.ValueObjects {
 
     public class BuildingLevel {
 
@@ -14,7 +14,7 @@ namespace TribalWarsBot.ValueObjects {
         }
 
         private bool IsValid() {
-            return Value > 0 && Value < 30;
+            return Value > 0 && Value <= 30;
         }
 
     }
