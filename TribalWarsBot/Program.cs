@@ -1,8 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net;
-
-using CsQuery;
 
 using TribalWarsBot.Screens;
 using TribalWarsBot.Services;
@@ -20,25 +17,29 @@ namespace TribalWarsBot {
             var loginService = new LoginService("newUser", "0000", reqManager);
             loginService.DoLogin();
 
-            var req = reqManager.GenerateGETRequest("https://sv36.tribalwars.se/game.php?village=2145&screen=main", null,
-                null, true);
+            Console.WriteLine("Login succeded!");
 
+            var buildingService = new BuildingService(reqManager);
 
-            CQ html;
-            using (var stream = new StreamReader(reqManager.GetResponse(req).GetResponseStream())) {
-                html = stream.ReadToEnd();
+            Console.WriteLine($"The HQ is level {buildingService.GetBuildingLevel(Buildings.Main)}");
+            Console.WriteLine($"The Barracks is level {buildingService.GetBuildingLevel(Buildings.Barracks)}");
+            Console.WriteLine($"The Stable is level {buildingService.GetBuildingLevel(Buildings.Stable)}");
+
+            var url =
+                "https://sv36.tribalwars.se/game.php?village=2173&screen=main&ajaxaction=upgrade_building&type=main&h=5b639478";
+
+            var postData = "id=iron&force=1&destroy=0&source=2173";
+            var resNotParsed = reqManager.GeneratePOSTRequest(url,postData , null, null, true);
+            var res = reqManager.GetResponse(resNotParsed);
+            Console.WriteLine(res.StatusCode);
+
+            using (var stream = new StreamReader(res.GetResponseStream())) {
+                Console.WriteLine(stream.ReadToEnd());
             }
 
-            var str = "#main_buildrow_";
-            var hqLevel = html.Select($"{str}{GetBuldingNameFromEnumType.Get(Buildings.Main)}");
-            var barrackLevel = html.Select($"{str}{GetBuldingNameFromEnumType.Get(Buildings.Barracks)}");
-            var stableLevel = html.Select($"{str}{GetBuldingNameFromEnumType.Get(Buildings.Stable)}");
-
-
-
-            Console.WriteLine($"The HQ is level {HtmlParse.GetCurrentLevelOfBuilingFromTableRow(hqLevel)}");
-            Console.WriteLine($"The Barracks is level {HtmlParse.GetCurrentLevelOfBuilingFromTableRow(barrackLevel)}");
-            Console.WriteLine($"The Stable is level {HtmlParse.GetCurrentLevelOfBuilingFromTableRow(stableLevel)}");
+            Console.WriteLine($"The HQ is level {buildingService.GetBuildingLevel(Buildings.Main)}");
+            Console.WriteLine($"The Barracks is level {buildingService.GetBuildingLevel(Buildings.Barracks)}");
+            Console.WriteLine($"The Stable is level {buildingService.GetBuildingLevel(Buildings.Stable)}");
         }
 
     }

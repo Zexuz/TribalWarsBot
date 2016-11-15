@@ -22,7 +22,7 @@ namespace TribalWarsBot {
                     return "market";
                 case Buildings.Wood:
                     return "wood";
-                case Buildings.Stone:
+                case Buildings.Clay:
                     return "stone";
                 case Buildings.Iron:
                     return "iron";

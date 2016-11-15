@@ -9,7 +9,7 @@
         Statue,
         Market,
         Wood,
-        Stone,
+        Clay,
         Iron,
         Farm,
         Storage,
