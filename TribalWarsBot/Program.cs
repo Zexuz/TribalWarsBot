@@ -30,8 +30,12 @@ namespace TribalWarsBot {
             Console.WriteLine($"The Barracks is level {buildingService.GetBuildingLevel(Buildings.Barracks)}");
             Console.WriteLine($"The Stable is level {buildingService.GetBuildingLevel(Buildings.Stable)}");
 
-            var succes = buildingService.UppgradeBuilding(Buildings.Wall, _csrfToken, _currentVillage);
-            Console.WriteLine(succes ? "Upgrading the building" : "Error, upgrade not registered");
+            var upgradingReqStatus = buildingService.UppgradeBuilding(Buildings.Wall, _csrfToken, _currentVillage);
+            Console.WriteLine(upgradingReqStatus ? "Upgrading the building" : "Error, upgrade not registered");
+
+            var canselReqStatus = buildingService.CancelBuildingUpgrade(Buildings.Wall,_csrfToken,_currentVillage);
+            Console.WriteLine(canselReqStatus ? "Canceling the order" : "Error, the order was not registered");
+
         }
 
 
