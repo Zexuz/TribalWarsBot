@@ -3,6 +3,9 @@ using System.IO;
 
 using CsQuery;
 
+using TribalWarsBot.Helpers;
+
+using static TribalWarsBot.Helpers.Constants;
 using TribalWarsBot.Screens;
 
 namespace TribalWarsBot.Services {
@@ -19,7 +22,7 @@ namespace TribalWarsBot.Services {
         public int GetBuildingLevel(Buildings builing) {
             const string str = "#main_buildrow_";
             var html = GetHeadQScreenHtml();
-            var id = $"{str}{GetBuldingNameFromEnumType.Get(builing)}";
+            var id = $"{str}{BuildingHelper.GetNameForType(builing)}";
             var hqTableElement = html.Select(id);
 
             return HtmlParse.GetCurrentLevelOfBuilingFromTableRow(hqTableElement);
@@ -27,17 +30,28 @@ namespace TribalWarsBot.Services {
 
 
         private CQ GetHeadQScreenHtml() {
-            var req = _reqManager.GenerateGETRequest("https://sv36.tribalwars.se/game.php?village=2145&screen=main",
-                null,
-                null, true);
+            var url = "https://sv36.tribalwars.se/game.php?village=2145&screen=main";
+            var req = _reqManager.GenerateGETRequest(url, null, null, true);
+            var res = _reqManager.GetResponse(req);
 
+            return RequestManager.GetResponseStringFromResponse(res);
+        }
 
-            CQ html;
-            using (var stream = new StreamReader(_reqManager.GetResponse(req).GetResponseStream())) {
-                html = stream.ReadToEnd();
-            }
+        public bool UppgradeBuilding(Buildings building, string csrfToken, string currentVillage) {
 
-            return html;
+            var uppgradeUrl = UppgradeBuildingUrl
+                .Replace("__village__", currentVillage)
+                .Replace("__type__", "main")
+                .Replace("__csrfToken__", csrfToken);
+
+            var url = $"{BaseUrl}{uppgradeUrl}";
+            var postData = $"id={BuildingHelper.GetNameForType(building)}&force=1&destroy=0&source={currentVillage}";
+
+            var resNotParsed = _reqManager.GeneratePOSTRequest(url, postData, null, null, true);
+            var res = _reqManager.GetResponse(resNotParsed);
+            var html = RequestManager.GetResponseStringFromResponse(res);
+
+            return html.ToString().Contains("Byggnationen har beordrats");
         }
 
     }

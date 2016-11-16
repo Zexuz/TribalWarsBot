@@ -2,11 +2,11 @@
 
 using TribalWarsBot.Screens;
 
-namespace TribalWarsBot {
+namespace TribalWarsBot.Helpers {
 
-    public class GetBuldingNameFromEnumType {
+    public static class BuildingHelper {
 
-        public static string Get(Buildings building) {
+        public static string GetNameForType(Buildings building) {
             switch (building) {
                 case Buildings.Main:
                     return "main";

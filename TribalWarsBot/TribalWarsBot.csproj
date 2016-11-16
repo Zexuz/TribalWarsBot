@@ -49,7 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\ValueObjects\BuildingLevel.cs" />
-    <Compile Include="GetBuldingNameFromEnumType.cs" />
+    <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\BuildingHelper.cs" />
     <Compile Include="HtmlParse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,10 +63,20 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain" />
+    <Folder Include="HttpRequest Data\login" />
     <Folder Include="Screens" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone.har" />
+    <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone1.har" />
+    <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone12.har" />
+    <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone123.har" />
+    <Content Include="HttpRequest Data\sv36.tribalwars.se.attackVillageConfirmDone.har" />
+    <Content Include="HttpRequest Data\sv36.tribalwars.se.attackVillageConfirmWait.har" />
+    <Content Include="HttpRequest Data\sv36.tribalwars.se.smithresearch.har" />
     <Content Include="HttpRequest Data\Tribalwars login.har" />
+    <Content Include="HttpRequest Data\xd.HTML" />
+    <Content Include="HttpRequest Data\xd.js" />
     <Content Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

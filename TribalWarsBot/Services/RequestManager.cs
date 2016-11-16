@@ -3,6 +3,8 @@ using System.IO;
 using System.Net;
 using System.Text;
 
+using CsQuery;
+
 namespace TribalWarsBot.Services
 {
     public class RequestManager
@@ -86,6 +88,15 @@ namespace TribalWarsBot.Services
             bool allowAutoRedirect)
         {
             return GenerateRequest(uri, content, "POST", null, null, allowAutoRedirect);
+        }
+
+        public static string GetResponseStringFromResponse(HttpWebResponse response) {
+            string html;
+            using (var stream = new StreamReader(response.GetResponseStream())) {
+                html = stream.ReadToEnd();
+            }
+
+            return html;
         }
 
         internal HttpWebRequest GenerateRequest(string uri, string content, string method, string login, string password,
