@@ -2,25 +2,19 @@
 
 namespace TribalWarsBot.Screens.Structures {
 
-    public abstract class Building {
-
-        public abstract int CurrentLevel { get; }
-        public abstract int MaxLevel { get; }
-
-        public abstract int WoodNeededToUpgrade { get; }
-        public abstract int StoneNeededToUpgrade { get; }
-        public abstract int IronNeededToUpgrade { get; }
-
-        public abstract TimeSpan TimeNeededToUpgrade { get; }
-        public abstract int FarmersNeededToUpgrade { get; }
-
-        public abstract string UpgradeToNextLevelLink { get; }
-
+    public abstract class Building:IBuilding {
         public Guid Id { get; }
+        public int CurrentLevel { get; }
 
-        protected Building() {
+
+        protected Building(int currentLevel) {
             Id = Guid.NewGuid();
+            CurrentLevel = currentLevel;
         }
+
+        public new abstract BuildingTypes GetType();
+
+
 
 
     }

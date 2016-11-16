@@ -6,41 +6,41 @@ namespace TribalWarsBot.Helpers {
 
     public static class BuildingHelper {
 
-        public static string GetNameForType(Buildings building) {
+        public static string GetNameForType(BuildingTypes building) {
             switch (building) {
-                case Buildings.Main:
+                case BuildingTypes.Main:
                     return "main";
-                case Buildings.Barracks:
+                case BuildingTypes.Barracks:
                     return "barracks";
-                case Buildings.Smith:
+                case BuildingTypes.Smith:
                     return "smith";
-                case Buildings.Place:
+                case BuildingTypes.Place:
                     return "place";
-                case Buildings.Statue:
+                case BuildingTypes.Statue:
                     return "statue";
-                case Buildings.Market:
+                case BuildingTypes.Market:
                     return "market";
-                case Buildings.Wood:
+                case BuildingTypes.Wood:
                     return "wood";
-                case Buildings.Clay:
+                case BuildingTypes.Clay:
                     return "stone";
-                case Buildings.Iron:
+                case BuildingTypes.Iron:
                     return "iron";
-                case Buildings.Farm:
+                case BuildingTypes.Farm:
                     return "farm";
-                case Buildings.Storage:
+                case BuildingTypes.Storage:
                     return "storage";
-                case Buildings.Hide:
+                case BuildingTypes.Hide:
                     return "hide";
-                case Buildings.Wall:
+                case BuildingTypes.Wall:
                     return "wall";
-                case Buildings.Stable:
+                case BuildingTypes.Stable:
                     return "stable";
-                case Buildings.Garage:
+                case BuildingTypes.Garage:
                     return "garage";
-                case Buildings.Watchtower:
+                case BuildingTypes.Watchtower:
                     return "watchtower";
-                case Buildings.Snob:
+                case BuildingTypes.Snob:
                     return "snob";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(building), building, null);

@@ -21,7 +21,7 @@ namespace TribalWarsBot.Services {
         }
 
 
-        public int GetBuildingLevel(Buildings builing) {
+        public int GetBuildingLevel(BuildingTypes builing) {
             const string str = "#main_buildrow_";
             var html = GetHeadQScreenHtml();
             var id = $"{str}{BuildingHelper.GetNameForType(builing)}";
@@ -30,7 +30,7 @@ namespace TribalWarsBot.Services {
             return HtmlParse.GetCurrentLevelOfBuilingFromTableRow(hqTableElement);
         }
 
-        public bool CancelBuildingUpgrade(Buildings building, string csrfToken, string currentVillage) {
+        public bool CancelBuildingUpgrade(BuildingTypes building, string csrfToken, string currentVillage) {
             var id = GetBuildingQueueId(GetHeadQScreenHtml());
 
             var cancelOrderUrl = CancelOrderUrl
@@ -49,7 +49,7 @@ namespace TribalWarsBot.Services {
         }
 
 
-        public bool UppgradeBuilding(Buildings building, string csrfToken, string currentVillage) {
+        public bool UppgradeBuilding(BuildingTypes building, string csrfToken, string currentVillage) {
             var uppgradeUrl = UpgradeBuildingUrl
                 .Replace("__village__", currentVillage)
                 .Replace("__type__", "main")

@@ -2,75 +2,61 @@
 using System.IO;
 using System.Text.RegularExpressions;
 
+using CsQuery.StringScanner.ExtensionMethods;
+
+using Newtonsoft.Json;
+
+using TribalWarsBot.Helpers;
 using TribalWarsBot.Screens;
+using TribalWarsBot.Screens.Structures;
 using TribalWarsBot.Services;
 
 namespace TribalWarsBot {
 
     internal class Program {
 
-        private string _csrfToken;
-        private string _currentVillage;
+        private RootObject _rootObject;
 
         private void Start() {
             var reqManager = new RequestManager();
             var loginService = new LoginService("newUser", "0000", reqManager);
             loginService.DoLogin();
 
-            SetCsrfTokenAndCurrentVillage(reqManager);
+            _rootObject = loginService.GetPlayerAndCurrentVillageInfo();
 
-            if(_csrfToken == null || _currentVillage == null)
+            if(_rootObject.csrf == null || _rootObject.village.id == 0)
                 throw new Exception("_csrfToken or _currentVillage is not set!");
 
             Console.WriteLine("Login succeded!");
 
             var buildingService = new BuildingService(reqManager);
 
-            Console.WriteLine($"The HQ is level {buildingService.GetBuildingLevel(Buildings.Main)}");
-            Console.WriteLine($"The Barracks is level {buildingService.GetBuildingLevel(Buildings.Barracks)}");
-            Console.WriteLine($"The Stable is level {buildingService.GetBuildingLevel(Buildings.Stable)}");
+//            Console.WriteLine($"The HQ is level {buildingService.GetBuildingLevel(BuildingTypes.Main)}");
+//            Console.WriteLine($"The Barracks is level {buildingService.GetBuildingLevel(BuildingTypes.Barracks)}");
+//            Console.WriteLine($"The Stable is level {buildingService.GetBuildingLevel(BuildingTypes.Stable)}");
 
-            var upgradingReqStatus = buildingService.UppgradeBuilding(Buildings.Wall, _csrfToken, _currentVillage);
-            Console.WriteLine(upgradingReqStatus ? "Upgrading the building" : "Error, upgrade not registered");
-
-            var canselReqStatus = buildingService.CancelBuildingUpgrade(Buildings.Wall,_csrfToken,_currentVillage);
-            Console.WriteLine(canselReqStatus ? "Canceling the order" : "Error, the order was not registered");
-
-        }
+            var storage = new Storage(0);
 
 
-        private void SetCsrfTokenAndCurrentVillage(RequestManager requestManager) {
-            const string url = "https://sv36.tribalwars.se/game.php?village=2173&screen=overview";
-            var req = requestManager.GenerateGETRequest(url, null, null, true);
-            var res = requestManager.GetResponse(req);
-            var htmlString = RequestManager.GetResponseStringFromResponse(res);
+            var timeLeftWood = storage.TimeLeftUntillWoodFull(_rootObject);
+            var woodStr = TimeFormater.TimeSpanToString(timeLeftWood);
+            Console.WriteLine($"time untill wood is full {woodStr}");
 
-            SetCurrentVillage(htmlString);
-            SetCsrfToken(htmlString);
-        }
+            var timeLeftClay = storage.TimeLeftUntillClayFull(_rootObject);
+            var clayStr = TimeFormater.TimeSpanToString(timeLeftClay);
+            Console.WriteLine($"time untill clay is full {clayStr}");
 
-
-        private void SetCurrentVillage(string html) {
-            var regEx = new Regex(@"/game\.php\?village=([\d]+)&screen=");
-
-            var match = regEx.Match(html);
-
-            if (!match.Success)
-                throw new Exception("Did not find the csrf token");
-
-            _currentVillage = match.Groups[1].Value;
-        }
-
-        private void SetCsrfToken(string html) {
-            var regEx = new Regex(@"var csrf_token = '([a-zA-Z0-9]+)';");
-
-            var match = regEx.Match(html);
+            var timeLeftIron = storage.TimeLeftUntillIronFull(_rootObject);
+            var ironStr = TimeFormater.TimeSpanToString(timeLeftIron);
+            Console.WriteLine($"time untill iron is full {ironStr}");
 
 
-            if (!match.Success)
-                throw new Exception("Did not find the csrf token");
+//            var upgradingReqStatus = buildingService.UppgradeBuilding(BuildingTypes.Wall, _csrfToken, _currentVillage);
+//            Console.WriteLine(upgradingReqStatus ? "Upgrading the building" : "Error, upgrade not registered");
+//
+//            var canselReqStatus = buildingService.CancelBuildingUpgrade(BuildingTypes.Wall,_csrfToken,_currentVillage);
+//            Console.WriteLine(canselReqStatus ? "Canceling the order" : "Error, the order was not registered");
 
-            _csrfToken = match.Groups[1].Value;
         }
 
         public static void Main(string[] args) {

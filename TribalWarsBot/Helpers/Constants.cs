@@ -7,6 +7,11 @@
         public static string CancelOrderUrl => "village=__village__&screen=main&ajaxaction=cancel_order&type=__type__&h=__csrfToken__";
 
 
+        public static int ProdValue => 3600;
+
+
+
+
     }
 
 }

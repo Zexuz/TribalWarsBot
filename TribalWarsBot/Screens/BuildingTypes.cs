@@ -1,6 +1,6 @@
 ﻿namespace TribalWarsBot.Screens {
 
-    public enum Buildings {
+    public enum BuildingTypes {
 
         Main,
         Barracks,

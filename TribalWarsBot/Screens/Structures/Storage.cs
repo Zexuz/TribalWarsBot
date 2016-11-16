@@ -1,21 +1,41 @@
 ﻿using System;
 
+using TribalWarsBot.Helpers;
+using TribalWarsBot.Services;
+
 namespace TribalWarsBot.Screens.Structures {
 
     public class Storage : Building {
 
-        public override int CurrentLevel { get; }
-        public override int MaxLevel { get; }
-        public override int WoodNeededToUpgrade { get; }
-        public override int StoneNeededToUpgrade { get; }
-        public override int IronNeededToUpgrade { get; }
-        public override TimeSpan TimeNeededToUpgrade { get; }
-        public override int FarmersNeededToUpgrade { get; }
-        public override string UpgradeToNextLevelLink { get; }
+
+        public Storage(int currentLevel) : base(currentLevel) {
+        }
+
+        public TimeSpan TimeLeftUntillWoodFull (RootObject rootObject) {
+            var village = rootObject.village;
+            return GetTimeLeft(village.wood,village.wood_prod,village.storage_max);
+        }
+
+        public TimeSpan TimeLeftUntillClayFull (RootObject rootObject) {
+            var village = rootObject.village;
+            return GetTimeLeft(village.stone,village.stone_prod,village.storage_max);
+        }
+        public TimeSpan TimeLeftUntillIronFull (RootObject rootObject) {
+            var village = rootObject.village;
+            return GetTimeLeft(village.iron,village.iron_prod,village.storage_max);
+        }
+
+        public override BuildingTypes GetType() {
+            return BuildingTypes.Storage;
+        }
 
 
-        public new Buildings GetType() {
-            return Buildings.Storage;
+        private TimeSpan GetTimeLeft(double inStorage, double prodPerHour, int storageCap) {
+            var delta = storageCap - inStorage;
+            var resPerHour = prodPerHour * Constants.ProdValue;
+
+            var hoursUntillFull = delta / resPerHour;
+            return TimeSpan.FromHours(hoursUntillFull);
         }
 
     }
