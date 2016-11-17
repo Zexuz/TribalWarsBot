@@ -1,5 +1,8 @@
 ﻿using System;
 
+using TribalWarsBot.Enums;
+using TribalWarsBot.Interfacies;
+
 namespace TribalWarsBot.Screens.Structures {
 
     public abstract class Building:IBuilding {

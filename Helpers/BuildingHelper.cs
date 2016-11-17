@@ -1,5 +1,6 @@
 ﻿using System;
 
+using TribalWarsBot.Enums;
 using TribalWarsBot.Screens;
 
 namespace TribalWarsBot.Helpers {

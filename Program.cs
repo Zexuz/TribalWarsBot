@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,6 +9,9 @@ using CsQuery.StringScanner.ExtensionMethods;
 
 using Newtonsoft.Json;
 
+using TribalWarsBot.Domain;
+using TribalWarsBot.Domain.ValueObjects;
+using TribalWarsBot.Enums;
 using TribalWarsBot.Helpers;
 using TribalWarsBot.Screens;
 using TribalWarsBot.Screens.Structures;
@@ -30,10 +34,24 @@ namespace TribalWarsBot {
                 throw new Exception("_csrfToken or _currentVillage is not set!");
 
             Console.WriteLine("Login succeded!");
-            var data = SendAttackInit(reqManager, _rootObject.village.id);
-            SendAttackConfirm(reqManager,data,_rootObject.csrf);
 
             var buildingService = new BuildingService(reqManager);
+            var attackService = new AttackService(reqManager);
+
+            var planedAttack = new PlanedAttack {
+                Units = new Dictionary<Units, int> {
+                    {Units.Spear, 10},
+                    {Units.Sword, 20}
+                },
+                Attacker = _rootObject.village,
+                EnemyVillageXCord = 525,
+                EnemyVillageYCord = 472
+            };
+
+
+            attackService.SendAttack(_rootObject, planedAttack);
+
+            Console.WriteLine("Attack sent!");
 
 //            Console.WriteLine($"The HQ is level {buildingService.GetBuildingLevel(BuildingTypes.Main)}");
 //            Console.WriteLine($"The Barracks is level {buildingService.GetBuildingLevel(BuildingTypes.Barracks)}");
@@ -62,7 +80,6 @@ namespace TribalWarsBot {
 //            var canselReqStatus = buildingService.CancelBuildingUpgrade(BuildingTypes.Wall,_csrfToken,_currentVillage);
 //            Console.WriteLine(canselReqStatus ? "Canceling the order" : "Error, the order was not registered");
         }
-
 
 
         public static void Main(string[] args) {

@@ -1,4 +1,4 @@
-﻿namespace TribalWarsBot.Screens {
+﻿namespace TribalWarsBot.Enums {
 
     public enum BuildingTypes {
 

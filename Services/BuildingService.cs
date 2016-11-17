@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 
 using CsQuery;
 
+using TribalWarsBot.Enums;
 using TribalWarsBot.Helpers;
 
 using static TribalWarsBot.Helpers.Constants;

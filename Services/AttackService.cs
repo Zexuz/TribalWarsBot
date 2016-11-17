@@ -2,6 +2,7 @@
 
 using CsQuery;
 
+using TribalWarsBot.Domain;
 using TribalWarsBot.Helpers;
 
 namespace TribalWarsBot.Services {
@@ -14,11 +15,11 @@ namespace TribalWarsBot.Services {
             _requestManager = requestManager;
         }
 
-        public bool SendAttack(RootObject rootObject, PlanedAttack planedAttack) {
+        public Attack SendAttack(RootObject rootObject, PlanedAttack planedAttack) {
             var postPayload = SendAttackInit(planedAttack, rootObject.village.id);
             SendAttackConfirm(postPayload, rootObject.csrf);
 
-            return true;
+            return new Attack(planedAttack);
         }
 
 
@@ -28,9 +29,9 @@ namespace TribalWarsBot.Services {
                 "22c2d931d74cd8a06d92b4=e6c57ef722c2d9" +
                 "&template_id=" +
                 $"&source_village={villageNr}" +
-                $"&{planedAttack.units}" +
-                $"&x={planedAttack.X}" +
-                $"&y={planedAttack.Y}" +
+                $"&{planedAttack.Units}" +
+                $"&x={planedAttack.EnemyVillageXCord}" +
+                $"&y={planedAttack.EnemyVillageYCord}" +
                 "&target_type=coord" +
                 "&input=&attack=Attack";
             var req = _requestManager.GeneratePOSTRequest(url, postData, null, null, true);
@@ -53,34 +54,6 @@ namespace TribalWarsBot.Services {
             var req = _requestManager.GeneratePOSTRequest(url, postData, null, null, true);
             var res = _requestManager.GetResponse(req);
             var htmlResponse = RequestManager.GetResponseStringFromResponse(res);
-        }
-
-    }
-
-    public class PlanedAttack {
-
-        public int X { get; set; }
-        public int Y { get; set; }
-        public UnitsGroup units { get; set; }
-
-    }
-
-    public class UnitsGroup {
-
-        public int Spear { get; set; }
-        public int Sword { get; set; }
-        public int Axe { get; set; }
-        public int Spy { get; set; }
-        public int Light { get; set; }
-        public int Heavy { get; set; }
-        public int Ram { get; set; }
-        public int Catapult { get; set; }
-        public int Knight { get; set; }
-        public int Snob { get; set; }
-
-        public override string ToString() {
-            return
-                $"spear={Spear}&sword={Sword}&axe={Axe}&spy={Spy}&light={Light}&heavy={Heavy}&ram={Ram}&catapult={Catapult}&knight={Knight}&snob={Snob}";
         }
 
     }

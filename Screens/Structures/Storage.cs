@@ -1,5 +1,6 @@
 ﻿using System;
 
+using TribalWarsBot.Enums;
 using TribalWarsBot.Helpers;
 using TribalWarsBot.Services;
 
