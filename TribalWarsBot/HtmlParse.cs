@@ -14,7 +14,7 @@ namespace TribalWarsBot {
             if (!element.Is("tr"))
                 throw new Exception("Did expect a table row (tr)");
 
-            var levelText = element["td"].Text();
+            var levelText = element.Text();
 
             var numberRegEx = new Regex(@"Nivå (\d{1,2})");
 
