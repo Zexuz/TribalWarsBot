@@ -52,27 +52,41 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\ValueObjects\BuildingLevel.cs" />
+    <Compile Include="Domain\ValueObjects\Units\Axe.cs" />
+    <Compile Include="Domain\ValueObjects\Units\Catapult.cs" />
+    <Compile Include="Domain\ValueObjects\Units\Heavy.cs" />
+    <Compile Include="Domain\ValueObjects\Units\Light.cs" />
+    <Compile Include="Domain\ValueObjects\Units\Ram.cs" />
+    <Compile Include="Domain\ValueObjects\Units\Spear.cs" />
+    <Compile Include="Domain\ValueObjects\Units\Spy.cs" />
+    <Compile Include="Domain\ValueObjects\Units\Sword.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\BuildingHelper.cs" />
     <Compile Include="Helpers\RootObject.cs" />
     <Compile Include="Helpers\TimeFormater.cs" />
     <Compile Include="HtmlParse.cs" />
+    <Compile Include="Interfacies\IBuilding.cs" />
+    <Compile Include="Interfacies\IUnit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\Structures\Building.cs" />
     <Compile Include="Screens\Structures\IBuilding.cs" />
     <Compile Include="Screens\Structures\Storage.cs" />
     <Compile Include="Screens\BuildingTypes.cs" />
+    <Compile Include="Services\AttackService.cs" />
     <Compile Include="Services\BuildingService.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\RequestManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain" />
+    <Folder Include="Domain\ValueObjects" />
     <Folder Include="HttpRequest Data\login" />
     <Folder Include="Screens" />
+    <Folder Include="Services" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="HttpRequest Data\attackResponseHtml.html" />
     <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone.har" />
     <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone1.har" />
     <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone12.har" />

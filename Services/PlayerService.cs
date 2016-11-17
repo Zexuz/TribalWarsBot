@@ -9,26 +9,22 @@ using TribalWarsBot.Helpers;
 
 namespace TribalWarsBot.Services {
 
-    public class LoginService {
+    public class PlayerService {
 
-        private readonly string _userName;
-        private readonly string _password;
         private readonly RequestManager _requestManager;
 
-        public LoginService(string userName, string password, RequestManager requestManager) {
-            _userName = userName;
-            _password = password;
+        public PlayerService( RequestManager requestManager) {
             _requestManager = requestManager;
         }
 
-        public void DoLogin() {
-            if (!LoginToTw() || !LoginToV36()) {
+        public void DoLogin(string userName, string password) {
+            if (!LoginToTw(userName,password) || !LoginToV36(userName)) {
                 throw new Exception("Can't login to TribalWars");
             }
         }
 
-        private bool LoginToTw() {
-            string postData = $"user={_userName}&password={_password}&cookie=true&clear=true";
+        private bool LoginToTw(string userName, string password) {
+            string postData = $"user={userName}&password={password}&cookie=true&clear=true";
             const string url = "https://www.tribalwars.se/index.php?action=login&show_server_selection=1";
 
             var loginReq = _requestManager.GeneratePOSTRequest(url, postData, null, null, true);
@@ -37,10 +33,10 @@ namespace TribalWarsBot.Services {
             return loginRes.StatusCode == HttpStatusCode.OK;
         }
 
-        public bool LoginToV36() {
+        public bool LoginToV36(string userName) {
             const string url = "https://www.tribalwars.se/index.php?action=login&server_sv36";
             var passwordCookie = _requestManager.GetCookieValue(new Uri("http://www.tribalwars.se/"), "password");
-            var postData = $"user={_userName}&password={passwordCookie}&sso=0";
+            var postData = $"user={userName}&password={passwordCookie}&sso=0";
             var loginReq = _requestManager.GeneratePOSTRequest(url, postData, null, null, true);
             var loginRes = _requestManager.GetResponse(loginReq);
 
