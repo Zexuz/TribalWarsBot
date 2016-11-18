@@ -31,7 +31,10 @@ namespace TribalWarsBot {
                     var sleepInMs = (60 * 2 + GetRandomInt(0, 300)) * 1000;
                     var timeSpan = new TimeSpan(0, 0, 0, 0, sleepInMs);
                     var timeStr = $"minutes {timeSpan.Minutes}, sec {timeSpan.Seconds}";
-                    Console.WriteLine($"Sleeping for {timeStr}, {DateTime.Now:hh:mm:ss}");
+                    var currentTime = DateTime.Now;
+                    Console.Write($"Sleeping for {timeStr}, CurrenTime {currentTime:hh:mm:ss}, Running again at ");
+                    var dateTime = currentTime.Add(timeSpan);
+                    Console.WriteLine($"{dateTime:hh:mm:ss}");
                     Thread.Sleep(sleepInMs);
                     continue;
                 }
