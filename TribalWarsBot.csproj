@@ -80,6 +80,7 @@
     <Compile Include="Screens\Structures\Storage.cs" />
     <Compile Include="Services\AttackService.cs" />
     <Compile Include="Services\BuildingService.cs" />
+    <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\RequestManager.cs" />
@@ -94,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="HttpRequest Data\attackResponseHtml.html" />
+    <Content Include="HttpRequest Data\EventPage.html" />
     <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone.har" />
     <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone1.har" />
     <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone12.har" />
