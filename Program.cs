@@ -14,7 +14,7 @@ namespace TribalWarsBot {
 
             var reqManager = new RequestManager();
             var loginService = new PlayerService(reqManager);
-            loginService.DoLogin("kalle hjularbo", "961107");
+            loginService.DoLogin("newUser", "0000");
 
             _rootObject = loginService.GetPlayerAndCurrentVillageInfo();
 
@@ -22,7 +22,9 @@ namespace TribalWarsBot {
                 throw new Exception("_csrfToken or _currentVillage is not set!");
 
             Console.WriteLine("Login succeded!");
-            var eventSevice = new EventService(reqManager);
+            new BuildingService(reqManager).GetActiveBuilingQueue();
+
+           /* var eventSevice = new EventService(reqManager);
 
             while (true) {
                 var masters = eventSevice.GetAvalibleMasters();
@@ -58,7 +60,7 @@ namespace TribalWarsBot {
                     var htmlres = RequestManager.GetResponseStringFromResponse(res);
                 }
             }
-
+*/
 
             /*  new MapService(reqManager).GetMapForGrid(480,500);
 

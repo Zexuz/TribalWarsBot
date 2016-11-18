@@ -1,28 +1,27 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
-
 using CsQuery;
-
+using TribalWarsBot.Domain.ValueObjects;
 using TribalWarsBot.Enums;
 using TribalWarsBot.Helpers;
-
 using static TribalWarsBot.Helpers.Constants;
 
-using TribalWarsBot.Screens;
 
-namespace TribalWarsBot.Services {
-
-    public class BuildingService {
-
+namespace TribalWarsBot.Services
+{
+    public class BuildingService
+    {
         private readonly RequestManager _reqManager;
 
-        public BuildingService(RequestManager reqManager) {
+        public BuildingService(RequestManager reqManager)
+        {
             _reqManager = reqManager;
         }
 
-
-        public int GetBuildingLevel(BuildingTypes builing) {
+        public int GetBuildingLevel(BuildingTypes builing)
+        {
             const string str = "#main_buildrow_";
             var html = GetHeadQScreenHtml();
             var id = $"{str}{BuildingHelper.GetNameForType(builing)}";
@@ -31,7 +30,32 @@ namespace TribalWarsBot.Services {
             return HtmlParse.GetCurrentLevelOfBuilingFromTableRow(hqTableElement);
         }
 
-        public bool CancelBuildingUpgrade(BuildingTypes building, string csrfToken, string currentVillage) {
+        public List<BuildingQueueItem> GetActiveBuilingQueue()
+        {
+            var list = new List<BuildingQueueItem>();
+            var matchesList = GetHeadQScreenHtml().Select("tbody#buildqueue tr").ToList();
+            foreach (var item in matchesList)
+            {
+                var doesCOntains = item.ClassName.Contains("buildorder");
+                if (!doesCOntains) continue;
+
+                var builingName = RegExHelper.GetTextWithRegEx("buildorder_([a-z]+)", item.ClassName);
+                var buildingType = BuildingHelper.GetBuildingTypeFromString(builingName);
+
+                var subString = item.FirstElementChild.InnerText.Split('\n')[1];
+                var lvl = int.Parse(RegExHelper.GetTextWithRegEx(@"([\d+])", subString));
+                var buildingQueueItem = new BuildingQueueItem
+                {
+                    Level = lvl,
+                    Type = buildingType
+                };
+                list.Add(buildingQueueItem);
+            }
+            return list;
+        }
+
+        public bool CancelBuildingUpgrade(BuildingTypes building, string csrfToken, string currentVillage)
+        {
             var id = GetBuildingQueueId(GetHeadQScreenHtml());
 
             var cancelOrderUrl = CancelOrderUrl
@@ -49,8 +73,8 @@ namespace TribalWarsBot.Services {
             return html.Contains("success\":true");
         }
 
-
-        public bool UppgradeBuilding(BuildingTypes building, string csrfToken, string currentVillage) {
+        public bool UppgradeBuilding(BuildingTypes building, string csrfToken, string currentVillage)
+        {
             var uppgradeUrl = UpgradeBuildingUrl
                 .Replace("__village__", currentVillage)
                 .Replace("__type__", "main")
@@ -66,7 +90,8 @@ namespace TribalWarsBot.Services {
             return html.ToString().Contains("Byggnationen har beordrats");
         }
 
-        private CQ GetHeadQScreenHtml() {
+        private CQ GetHeadQScreenHtml()
+        {
             var url = "https://sv36.tribalwars.se/game.php?village=2145&screen=main";
             var req = _reqManager.GenerateGETRequest(url, null, null, true);
             var res = _reqManager.GetResponse(req);
@@ -74,7 +99,8 @@ namespace TribalWarsBot.Services {
             return RequestManager.GetResponseStringFromResponse(res);
         }
 
-        private string GetBuildingQueueId(CQ html) {
+        private string GetBuildingQueueId(CQ html)
+        {
             var tableRowElement = html.Select("#buildqueue tr.buildorder_wall");
             var cancelButtonHref = tableRowElement.Select("td.lit-item a.btn.btn-cancel").Attr("href");
 
@@ -87,7 +113,5 @@ namespace TribalWarsBot.Services {
             var id = match.Groups[1].Value;
             return id;
         }
-
     }
-
 }
