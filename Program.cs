@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 
-using TribalWarsBot.Domain;
-using TribalWarsBot.Enums;
 using TribalWarsBot.Helpers;
-using TribalWarsBot.Screens.Structures;
 using TribalWarsBot.Services;
 
 namespace TribalWarsBot {
@@ -15,6 +11,7 @@ namespace TribalWarsBot {
         private RootObject _rootObject;
 
         private void Start() {
+
             var reqManager = new RequestManager();
             var loginService = new PlayerService(reqManager);
             loginService.DoLogin("kalle hjularbo", "961107");
@@ -31,8 +28,11 @@ namespace TribalWarsBot {
                 var masters = eventSevice.GetAvalibleMasters();
 
                 if (masters == 0) {
-                    Console.WriteLine($"Sleeping for 2 min {DateTime.Now:hh:mm:ss}");
-                    Thread.Sleep(60 * 2 * 1000);
+                    var sleepInMs = (60 * 2 + GetRandomInt(0, 300)) * 1000;
+                    var timeSpan = new TimeSpan(0, 0, 0, 0, sleepInMs);
+                    var timeStr = $"minutes {timeSpan.Minutes}, sec {timeSpan.Seconds}";
+                    Console.WriteLine($"Sleeping for {timeStr}, {DateTime.Now:hh:mm:ss}");
+                    Thread.Sleep(sleepInMs);
                     continue;
                 }
 
@@ -43,6 +43,9 @@ namespace TribalWarsBot {
                     if (myFlags.Flags[op.FlagType] > 4) {
                         continue;
                     }
+
+                    if(masters == 0)continue;
+                    masters -= 1;
 
                     Console.WriteLine($"Send to get {op.FlagType}");
 
@@ -100,6 +103,11 @@ namespace TribalWarsBot {
 //
 //            var canselReqStatus = buildingService.CancelBuildingUpgrade(BuildingTypes.Wall,_csrfToken,_currentVillage);
 //            Console.WriteLine(canselReqStatus ? "Canceling the order" : "Error, the order was not registered");
+        }
+
+        private int GetRandomInt(int min,int max) {
+            var random = new Random();
+            return random.Next(min,max);
         }
 
 
