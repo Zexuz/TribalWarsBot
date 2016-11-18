@@ -21,7 +21,7 @@
                 public static int Clay => 30;
                 public static int Iron => 40;
                 public static int FramSpace => 1;
-                public static int SpeedInMs => 60 * 1000 * 17;
+                public static int SpeedInMs => 1000000;
 
             }
 
@@ -31,7 +31,7 @@
                 public static int Clay => 400;
                 public static int Iron => 100;
                 public static int FarmSpace => 8;
-                public static int SpeedInMs => 60 * 1000 * 28;
+                public static int SpeedInMs => 1666666;
 
             }
 
@@ -41,7 +41,7 @@
                 public static int Clay => 150;
                 public static int Iron => 600;
                 public static int FarmSpace => 6;
-                public static int SpeedInMs => 60 * 1000 * 10;
+                public static int SpeedInMs => 611111;
 
             }
 
@@ -51,7 +51,7 @@
                 public static int Clay => 100;
                 public static int Iron => 250;
                 public static int FarmSpace => 4;
-                public static int SpeedInMs => 60 * 1000 * 9;
+                public static int SpeedInMs => 555555;
 
             }
 
@@ -62,7 +62,7 @@
                 public static int Clay => 200;
                 public static int Iron => 200;
                 public static int FarmSpace => 5;
-                public static int SpeedInMs => 60 * 1000 * 28;
+                public static int SpeedInMs => 1666666;
 
             }
 
@@ -72,7 +72,7 @@
                 public static int Clay => 30;
                 public static int Iron => 30;
                 public static int FarmSpace => 1;
-                public static int SpeedInMs => 60 * 1000 * 17;
+                public static int SpeedInMs => 1000000;
 
             }
 
@@ -82,7 +82,7 @@
                 public static int Clay => 50;
                 public static int Iron => 20;
                 public static int FarmSpace => 2;
-                public static int SpeedInMs => 60 * 1000 * 8;
+                public static int SpeedInMs => 500000;
 
             }
 
@@ -92,7 +92,7 @@
                 public static int Clay => 30;
                 public static int Iron => 70;
                 public static int FarmSpace => 1;
-                public static int SpeedInMs => 60 * 1000 * 20;
+                public static int SpeedInMs => 1222222;
 
             }
 
@@ -102,7 +102,7 @@
                 public static int Clay => 20;
                 public static int Iron => 40;
                 public static int FarmSpace => 10;
-                public static int SpeedInMs => 60 * 1000 * 9;
+                public static int SpeedInMs => 555555;
 
             }
 
@@ -112,7 +112,7 @@
                 public static int Clay => 50000;
                 public static int Iron => 50000;
                 public static int FarmSpace => 100;
-                public static int SpeedInMs => 60 * 1000 * 32;
+                public static int SpeedInMs => 1944444;
 
             }
 

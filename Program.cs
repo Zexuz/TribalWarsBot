@@ -1,19 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-
-using CsQuery;
-using CsQuery.StringScanner.ExtensionMethods;
-
-using Newtonsoft.Json;
 
 using TribalWarsBot.Domain;
-using TribalWarsBot.Domain.ValueObjects;
 using TribalWarsBot.Enums;
 using TribalWarsBot.Helpers;
-using TribalWarsBot.Screens;
 using TribalWarsBot.Screens.Structures;
 using TribalWarsBot.Services;
 
@@ -35,17 +25,19 @@ namespace TribalWarsBot {
 
             Console.WriteLine("Login succeded!");
 
+            new MapService(reqManager).GetMapForGrid(480,500);
+
             var buildingService = new BuildingService(reqManager);
             var attackService = new AttackService(reqManager);
 
             var planedAttack = new PlanedAttack {
                 Units = new Dictionary<Units, int> {
                     {Units.Spear, 10},
-                    {Units.Sword, 20}
+                    {Units.Sword, 10}
                 },
                 Attacker = _rootObject.village,
-                EnemyVillageXCord = 525,
-                EnemyVillageYCord = 472
+                EnemyVillageXCord = 521,
+                EnemyVillageYCord = 474
             };
 
 
