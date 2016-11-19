@@ -57,6 +57,7 @@
     <Compile Include="Domain\PlanedAttack.cs" />
     <Compile Include="Domain\ValueObjects\BuildingLevel.cs" />
     <Compile Include="Domain\ValueObjects\BuildingQueueItem.cs" />
+    <Compile Include="Domain\ValueObjects\User.cs" />
     <Compile Include="Enums\AttackStatus.cs" />
     <Compile Include="Enums\BuildingTypes.cs" />
     <Compile Include="Enums\Units.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\RequestManager.cs" />
+    <Compile Include="Services\RequestServiceCache.cs" />
     <Compile Include="Services\UnitService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +87,7 @@
     <Folder Include="HttpRequest Data\login" />
     <Folder Include="Screens" />
     <Folder Include="Screens\Structures" />
+    <Folder Include="Services" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="HttpRequest Data\attackResponseHtml.html" />

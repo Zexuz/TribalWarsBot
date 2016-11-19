@@ -10,6 +10,9 @@
         public static string CancelOrderUrl
             => "village=__village__&screen=main&ajaxaction=cancel_order&type=__type__&h=__csrfToken__";
 
+        public static string RecruitUnitsUrl
+            => "village=__village___&screen=train&ajaxaction=train&mode=train&h=__csrdToken____";
+
 
         public static int ProdValue => 3600;
 
