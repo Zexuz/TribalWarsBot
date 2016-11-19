@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
-
+using TribalWarsBot.Enums;
 using TribalWarsBot.Helpers;
 using TribalWarsBot.Services;
 
@@ -22,45 +23,49 @@ namespace TribalWarsBot {
                 throw new Exception("_csrfToken or _currentVillage is not set!");
 
             Console.WriteLine("Login succeded!");
-            new BuildingService(reqManager).GetActiveBuilingQueue();
+            var units = new Dictionary<Units, int>
+            {
+                {Units.Spear, 1}
+            };
+            new UnitService(reqManager).ReqruitTroops(units, _rootObject.csrf, _rootObject.village.id);
+//            new BuildingService(reqManager).GetActiveBuilingQueue();
 
-           /* var eventSevice = new EventService(reqManager);
+            /*   var eventSevice = new EventService(reqManager);
+               var masterLimit = 0;
+               while (true) {
+                   var masters = eventSevice.GetAvalibleMasters();
 
-            while (true) {
-                var masters = eventSevice.GetAvalibleMasters();
+                   if (masters <= masterLimit) {
+                       var sleepInMs = ( GetRandomInt(0, 120)) * 1000;
+                       var timeSpan = new TimeSpan(0, 0, 0, 0, sleepInMs);
+                       var timeStr = $"minutes {timeSpan.Minutes}, sec {timeSpan.Seconds}";
+                       var currentTime = DateTime.Now;
+                       Console.Write($"Sleeping for {timeStr}, CurrenTime {currentTime:hh:mm:ss}, Running again at ");
+                       var dateTime = currentTime.Add(timeSpan);
+                       Console.WriteLine($"{dateTime:hh:mm:ss}");
+                       Thread.Sleep(sleepInMs);
+                       continue;
+                   }
 
-                if (masters == 0) {
-                    var sleepInMs = (60 * 2 + GetRandomInt(0, 300)) * 1000;
-                    var timeSpan = new TimeSpan(0, 0, 0, 0, sleepInMs);
-                    var timeStr = $"minutes {timeSpan.Minutes}, sec {timeSpan.Seconds}";
-                    var currentTime = DateTime.Now;
-                    Console.Write($"Sleeping for {timeStr}, CurrenTime {currentTime:hh:mm:ss}, Running again at ");
-                    var dateTime = currentTime.Add(timeSpan);
-                    Console.WriteLine($"{dateTime:hh:mm:ss}");
-                    Thread.Sleep(sleepInMs);
-                    continue;
-                }
+                   var myFlags = eventSevice.GetMyFlags();
+                   var oponents = eventSevice.GetOponents(_rootObject.csrf);
 
-                var myFlags = eventSevice.GetMyFlags();
-                var oponents = eventSevice.GetOponents(_rootObject.csrf);
+                   foreach (var op in oponents) {
+                       if (myFlags.Flags[op.FlagType] > 4) {
+                           continue;
+                       }
 
-                foreach (var op in oponents) {
-                    if (myFlags.Flags[op.FlagType] > 4) {
-                        continue;
-                    }
+                       if(masters <= masterLimit)continue;
+                       masters -= 1;
 
-                    if(masters == 0)continue;
-                    masters -= 1;
+                       Console.WriteLine($"Send to get {op.FlagType}");
 
-                    Console.WriteLine($"Send to get {op.FlagType}");
-
-                    Console.WriteLine(op.Url);
-                   var req = reqManager.GenerateGETRequest(op.Url, null, null, true);
-                    var res = reqManager.GetResponse(req);
-                    var htmlres = RequestManager.GetResponseStringFromResponse(res);
-                }
-            }
-*/
+                       Console.WriteLine(op.Url);
+                      var req = reqManager.GenerateGETRequest(op.Url, null, null, true);
+                       var res = reqManager.GetResponse(req);
+                       var htmlres = RequestManager.GetResponseStringFromResponse(res);
+                   }
+               }*/
 
             /*  new MapService(reqManager).GetMapForGrid(480,500);
 

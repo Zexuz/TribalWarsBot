@@ -62,10 +62,10 @@
     <Compile Include="Enums\Units.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\BuildingHelper.cs" />
-    <Compile Include="Helpers\Misc.cs" />
     <Compile Include="Helpers\RegExHelper.cs" />
     <Compile Include="Helpers\RootObject.cs" />
     <Compile Include="Helpers\TimeFormater.cs" />
+    <Compile Include="Helpers\UnitHelper.cs" />
     <Compile Include="HtmlParse.cs" />
     <Compile Include="Interfacies\IBuilding.cs" />
     <Compile Include="Program.cs" />
@@ -77,9 +77,11 @@
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\RequestManager.cs" />
+    <Compile Include="Services\UnitService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain" />
+    <Folder Include="Helpers" />
     <Folder Include="HttpRequest Data\login" />
     <Folder Include="Screens" />
     <Folder Include="Screens\Structures" />
