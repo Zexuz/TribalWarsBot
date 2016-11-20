@@ -1,33 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Threading;
 using TribalWarsBot.Enums;
 using TribalWarsBot.Helpers;
 using TribalWarsBot.Services;
 
-namespace TribalWarsBot {
-
-    internal class Program {
-
+namespace TribalWarsBot
+{
+    internal class Program
+    {
         private RootObject _rootObject;
 
-        private void Start() {
+        private void Start()
+        {
+            var userName = ConfigurationManager.AppSettings["username"];
+            var userPassword = ConfigurationManager.AppSettings["password"];
+            var user = new User(userName, userPassword);
 
-            var reqManager = new RequestManager();
-            var loginService = new PlayerService(reqManager);
-            loginService.DoLogin("newUser", "0000");
+            var reqCache = new RequestCache(user);
+            var loginService = new PlayerService();
 
-            _rootObject = loginService.GetPlayerAndCurrentVillageInfo();
+            reqCache.DoLogin();
+            _rootObject = loginService.GetPlayerAndCurrentVillageInfo(reqCache);
 
             if (_rootObject.csrf == null || _rootObject.village.id == 0)
                 throw new Exception("_csrfToken or _currentVillage is not set!");
 
             Console.WriteLine("Login succeded!");
-            var units = new Dictionary<Units, int>
+            foreach (var buildingQueueItem in new BuildingService(reqCache.Manager).GetActiveBuilingQueue())
             {
-                {Units.Spear, 1}
-            };
-            new UnitService(reqManager).ReqruitTroops(units, _rootObject.csrf, _rootObject.village.id);
+                Console.WriteLine(buildingQueueItem);
+            }
+
+            var buildingService = new BuildingService(reqCache.Manager);
+            const BuildingTypes type = BuildingTypes.Stable;
+            var csrfToken = _rootObject.csrf;
+            var villageId = _rootObject.village.id;
+            buildingService.AddBuildingUppgradeToActiveQeueu(type, csrfToken, villageId);
+
+            foreach (var buildingQueueItem in buildingService.GetActiveBuilingQueue())
+            {
+                Console.WriteLine(buildingQueueItem);
+            }
+
+            buildingService.CancelBuildingUpgradeFromActiveQueue(buildingService.GetActiveBuilingQueue()[2].Id, csrfToken, villageId);
+
+            foreach (var buildingQueueItem in new BuildingService(reqCache.Manager).GetActiveBuilingQueue())
+            {
+                Console.WriteLine(buildingQueueItem);
+            }
+
+
+            Environment.Exit(0);
+//            var units = new Dictionary<Units, int>
+//            {
+//                {Units.Spear, 1}
+//            };
+//            new UnitService(reqCache.Manager).ReqruitTroops(units, _rootObject.csrf, _rootObject.village.id);
 //            new BuildingService(reqManager).GetActiveBuilingQueue();
 
             /*   var eventSevice = new EventService(reqManager);
@@ -107,24 +137,18 @@ namespace TribalWarsBot {
               var ironStr = TimeFormater.TimeSpanToString(timeLeftIron);
               Console.WriteLine($"time untill iron is full {ironStr}");
   */
-
-//            var upgradingReqStatus = buildingService.UppgradeBuilding(BuildingTypes.Wall, _csrfToken, _currentVillage);
-//            Console.WriteLine(upgradingReqStatus ? "Upgrading the building" : "Error, upgrade not registered");
-//
-//            var canselReqStatus = buildingService.CancelBuildingUpgrade(BuildingTypes.Wall,_csrfToken,_currentVillage);
-//            Console.WriteLine(canselReqStatus ? "Canceling the order" : "Error, the order was not registered");
         }
 
-        private int GetRandomInt(int min,int max) {
+        private int GetRandomInt(int min, int max)
+        {
             var random = new Random();
-            return random.Next(min,max);
+            return random.Next(min, max);
         }
 
 
-        public static void Main(string[] args) {
+        public static void Main(string[] args)
+        {
             new Program().Start();
         }
-
     }
-
 }

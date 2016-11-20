@@ -44,6 +44,7 @@
       <HintPath>packages\Newtonsoft.Json.9.0.2-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
@@ -78,7 +79,7 @@
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\RequestManager.cs" />
-    <Compile Include="Services\RequestServiceCache.cs" />
+    <Compile Include="Services\RequestCache.cs" />
     <Compile Include="Services\UnitService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +91,7 @@
     <Folder Include="Services" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app.config" />
     <Content Include="HttpRequest Data\attackResponseHtml.html" />
     <Content Include="HttpRequest Data\EventPage.html" />
     <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone.har" />

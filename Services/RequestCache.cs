@@ -3,15 +3,20 @@ using System.Net;
 
 namespace TribalWarsBot.Services
 {
-    public class RequestServiceCache
+    public class RequestCache
     {
         private readonly User _user;
-        public RequestManager Manager { get; }
-        
-        
-        public RequestServiceCache(User user)
+        public RequestManager Manager { get; private set; }
+
+
+        public RequestCache(User user)
         {
             _user = user;
+            Manager = new RequestManager();
+        }
+
+        public void ClearCache()
+        {
             Manager = new RequestManager();
         }
 
@@ -27,6 +32,10 @@ namespace TribalWarsBot.Services
 
             var loginReq = Manager.GeneratePOSTRequest(url, postData, null, null, true);
             var loginRes = Manager.GetResponse(loginReq);
+
+            var responseStr = RequestManager.GetResponseStringFromResponse(loginRes);
+            if(responseStr.Contains("error"))
+                throw new Exception($"error login to tw {responseStr}");
 
             return loginRes.StatusCode == HttpStatusCode.OK;
         }

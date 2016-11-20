@@ -11,16 +11,10 @@ namespace TribalWarsBot.Services {
 
     public class PlayerService {
 
-        private readonly RequestServiceCache _serviceCache;
 
-        public PlayerService( RequestServiceCache serviceCache) {
-            _serviceCache = serviceCache;
-        }
-
-        public RootObject GetPlayerAndCurrentVillageInfo() {
+        public RootObject GetPlayerAndCurrentVillageInfo(RequestCache requestCache) {
             string url = $"{Constants.BaseUrl}screen=overview";
-            var req = _serviceCache.Manager.GenerateGETRequest(url, null, null, true);
-            var res = _serviceCache.Manager.GetResponse(req);
+            var res = requestCache.Manager.SendGETRequest(url, null, null, true);
             var htmlString = RequestManager.GetResponseStringFromResponse(res);
 
             var indexStart = htmlString.IndexOf("TribalWars.updateGameData({", StringComparison.Ordinal);
