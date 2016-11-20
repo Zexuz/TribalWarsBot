@@ -22,7 +22,7 @@ namespace TribalWarsBot.Helpers
             var match = regEx.Match(text);
 
             if (!match.Success)
-                throw new Exception("Did not find the building id");
+                throw new Exception("Did not find the time");
 
             var time = new Time
             {

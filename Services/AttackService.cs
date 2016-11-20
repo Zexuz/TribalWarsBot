@@ -37,8 +37,6 @@ namespace TribalWarsBot.Services {
             var req = _requestManager.GeneratePOSTRequest(url, postData, null, null, true);
             var res = _requestManager.GetResponse(req);
 
-            //post data 22c2d931d74cd8a06d92b4=e6c57ef722c2d9&template_id=&source_village=2173&spear=&sword=63&axe=&spy=&light=&heavy=&ram=&catapult=&knight=&snob=&x=525&y=473&target_type=coord&input=&attack=Attack
-            // Response html is in attacjResponseHtml
             var str = RequestManager.GetResponseStringFromResponse(res);
             CQ html = str;
             var formElement = html.Select("#command-data-form");
@@ -51,8 +49,7 @@ namespace TribalWarsBot.Services {
 
         private void SendAttackConfirm(string postData, string token) {
             var url = $"https://sv36.tribalwars.se/game.php?village=2173&screen=place&action=command&h={token}";
-            var req = _requestManager.GeneratePOSTRequest(url, postData, null, null, true);
-            var res = _requestManager.GetResponse(req);
+            var res = _requestManager.SendPOSTRequest(url, postData, null, null, true);
             var htmlResponse = RequestManager.GetResponseStringFromResponse(res);
         }
 

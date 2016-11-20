@@ -28,7 +28,15 @@ namespace TribalWarsBot
                 throw new Exception("_csrfToken or _currentVillage is not set!");
 
             Console.WriteLine("Login succeded!");
-            foreach (var buildingQueueItem in new BuildingService(reqCache.Manager).GetActiveBuilingQueue())
+            var barrackService = new BarrackService();
+            var list = barrackService.GetActiveQueue(reqCache.Manager, _rootObject.village.id);
+            foreach (var unitQueueItem in list)
+            {
+                Console.WriteLine(unitQueueItem);
+            }
+            Environment.Exit(0);
+
+            /*foreach (var buildingQueueItem in new BuildingService(reqCache.Manager).GetActiveBuilingQueue())
             {
                 Console.WriteLine(buildingQueueItem);
             }
@@ -50,14 +58,13 @@ namespace TribalWarsBot
             {
                 Console.WriteLine(buildingQueueItem);
             }
+*/
 
-
-            Environment.Exit(0);
 //            var units = new Dictionary<Units, int>
 //            {
 //                {Units.Spear, 1}
 //            };
-//            new UnitService(reqCache.Manager).ReqruitTroops(units, _rootObject.csrf, _rootObject.village.id);
+//            new BarrackService(reqCache.Manager).AddOrderToActiveQueue(units, _rootObject.csrf, _rootObject.village.id);
 //            new BuildingService(reqManager).GetActiveBuilingQueue();
 
             /*   var eventSevice = new EventService(reqManager);
