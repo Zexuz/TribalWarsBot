@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using CsQuery;
 
@@ -17,7 +18,7 @@ namespace TribalWarsBot.Services {
 
         public Attack SendAttack(RootObject rootObject, PlanedAttack planedAttack) {
             var postPayload = SendAttackInit(planedAttack, rootObject.village.id);
-            SendAttackConfirm(postPayload, rootObject.csrf);
+            SendAttackConfirm(postPayload, rootObject.csrf, rootObject.village.id);
 
             return new Attack(planedAttack);
         }
@@ -29,7 +30,7 @@ namespace TribalWarsBot.Services {
                 "22c2d931d74cd8a06d92b4=e6c57ef722c2d9" +
                 "&template_id=" +
                 $"&source_village={villageNr}" +
-                $"&{planedAttack.Units}" +
+                $"&{UnitHelper.GetUnitQueryStringFromUnitDict(planedAttack.Units)}" +
                 $"&x={planedAttack.EnemyVillageXCord}" +
                 $"&y={planedAttack.EnemyVillageYCord}" +
                 "&target_type=coord" +
@@ -47,8 +48,8 @@ namespace TribalWarsBot.Services {
         }
 
 
-        private void SendAttackConfirm(string postData, string token) {
-            var url = $"https://sv36.tribalwars.se/game.php?village=2173&screen=place&action=command&h={token}";
+        private void SendAttackConfirm(string postData, string token, int village) {
+            var url = $"https://sv36.tribalwars.se/game.php?village={village}&screen=place&action=command&h={token}";
             var res = _requestManager.SendPOSTRequest(url, postData, null, null, true);
             var htmlResponse = RequestManager.GetResponseStringFromResponse(res);
         }

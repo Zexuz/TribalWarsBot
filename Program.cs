@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
+using System.Threading;
+
+using TribalWarsBot.Cache;
+using TribalWarsBot.Domain;
 using TribalWarsBot.Enums;
 using TribalWarsBot.Helpers;
 using TribalWarsBot.Services;
 
-namespace TribalWarsBot
-{
-    internal class Program
-    {
+namespace TribalWarsBot {
+
+    internal class Program {
+
         private RootObject _rootObject;
 
-        private void Start()
-        {
+        private void Start() {
             var userName = ConfigurationManager.AppSettings["username"];
             var userPassword = ConfigurationManager.AppSettings["password"];
             var user = new User(userName, userPassword);
@@ -28,21 +30,58 @@ namespace TribalWarsBot
                 throw new Exception("_csrfToken or _currentVillage is not set!");
 
             Console.WriteLine("Login succeded!");
-            var barrackService = new UnitService();
 
-            Console.WriteLine("barracks");
-            foreach (var item in barrackService.GetActiveQueueForBarracks(reqCache.Manager, _rootObject.village.id))
-            {
-                Console.WriteLine(item);
+            while (true) {
+
+                Console.WriteLine($"Sleeping for half hour, {DateTime.Now:hh:mm:ss}");
+                Thread.Sleep(60 * 60 *30 * 1000);
+
+                var villageCache = new WorldMapVillageCache();
+                var worldMapVillageService = new WorldMapVillageService(villageCache);
+                var barbarianVillages = worldMapVillageService.GetBarbarianVillagesInRange(4, 507, 530);
+
+
+                var attackService = new AttackService(reqCache.Manager);
+
+                foreach (var village in barbarianVillages) {
+
+
+
+                    var planedAttack = new PlanedAttack {
+                        Units = new Dictionary<Units, int> {
+                            {Units.Light, 5},
+                            {Units.Spy, 1}
+                        },
+                        Attacker = _rootObject.village,
+                        EnemyVillageXCord = village.X,
+                        EnemyVillageYCord = village.Y
+                    };
+
+
+                    attackService.SendAttack(_rootObject, planedAttack);
+                    Thread.Sleep(200 + GetRandomInt(0, 500));
+                }
+
+
             }
 
-            Console.WriteLine("stable");
-            foreach (var item in barrackService.GetActiveQueueForStable(reqCache.Manager, _rootObject.village.id))
-            {
-                Console.WriteLine(item);
-            }
+            #region Comments....
 
-            Environment.Exit(0);
+            /*       var barrackService = new UnitService();
+
+                   Console.WriteLine("barracks");
+                   foreach (var item in barrackService.GetActiveQueueForBarracks(reqCache.Manager, _rootObject.village.id))
+                   {
+                       Console.WriteLine(item);
+                   }
+
+                   Console.WriteLine("stable");
+                   foreach (var item in barrackService.GetActiveQueueForStable(reqCache.Manager, _rootObject.village.id))
+                   {
+                       Console.WriteLine(item);
+                   }
+
+                   Environment.Exit(0);*/
 
             /*foreach (var buildingQueueItem in new BuildingService(reqCache.Manager).GetActiveBuilingQueue())
             {
@@ -152,18 +191,20 @@ namespace TribalWarsBot
               var ironStr = TimeFormater.TimeSpanToString(timeLeftIron);
               Console.WriteLine($"time untill iron is full {ironStr}");
   */
+
+            #endregion
         }
 
-        private int GetRandomInt(int min, int max)
-        {
+        private int GetRandomInt(int min, int max) {
             var random = new Random();
             return random.Next(min, max);
         }
 
 
-        public static void Main(string[] args)
-        {
+        public static void Main(string[] args) {
             new Program().Start();
         }
+
     }
+
 }

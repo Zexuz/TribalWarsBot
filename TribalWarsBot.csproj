@@ -44,6 +44,8 @@
       <HintPath>packages\Newtonsoft.Json.9.0.2-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Extensions" />
@@ -54,6 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\WorldMapPlayerCache.cs" />
+    <Compile Include="Cache\WorldMapVillageCache.cs" />
     <Compile Include="Domain\Attack.cs" />
     <Compile Include="Domain\BuildingQueueItem.cs" />
     <Compile Include="Domain\PlanedAttack.cs" />
@@ -81,6 +85,8 @@
     <Compile Include="Services\RequestManager.cs" />
     <Compile Include="Services\RequestCache.cs" />
     <Compile Include="Services\UnitService.cs" />
+    <Compile Include="Services\WorldMapPlayerService.cs" />
+    <Compile Include="Services\WorldMapVillageService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain\ValueObjects" />
@@ -88,7 +94,6 @@
     <Folder Include="HttpRequest Data\login" />
     <Folder Include="Screens" />
     <Folder Include="Screens\Structures" />
-    <Folder Include="Services" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.config" />
