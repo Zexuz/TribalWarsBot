@@ -16,6 +16,11 @@ namespace TribalWarsBot.Helpers
             return match.Groups[1].Value;
         }
 
+        public static int GetNumberWithRegEx(string pattern, string text)
+        {
+            return int.Parse(GetTextWithRegEx(pattern, text));
+        }
+
         public static Time GetTimeFromString(string text)
         {
             var regEx = new Regex(@"(\d+):(\d+):(\d+)");

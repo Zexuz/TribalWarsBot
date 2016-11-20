@@ -63,14 +63,14 @@ namespace TribalWarsBot.Services
 
             var type = UnitHelper.GetTypeForString(queantAndTypeStr.Classes.ToList().Last());
             var domElements = item.ChildElements.ToList();
-            var quantityStr = RegExHelper.GetTextWithRegEx(@"(\d+)", domElements[0].InnerText);
+            var quantity = RegExHelper.GetNumberWithRegEx(@"(\d+)", domElements[0].InnerText);
 
             var timeUntillCompleeteStr = itemCq.Text();
             var timeUntillCompleete = RegExHelper.GetTimeFromString(timeUntillCompleeteStr);
 
             var queueItem = new UnitQueueItem
             {
-                Quantity = Convert.ToInt32(quantityStr),
+                Quantity = quantity,
                 Type = type,
                 TimeLeft = timeUntillCompleete,
                 Id = GetOrderQueueId(item)

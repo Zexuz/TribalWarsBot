@@ -68,9 +68,9 @@ namespace TribalWarsBot.Services
 
             var resNotParsed = _reqManager.GeneratePOSTRequest(url, postData, null, null, true);
             var res = _reqManager.GetResponse(resNotParsed);
-            var html = RequestManager.GetResponseStringFromResponse(res);
+            var htmlStr = RequestManager.GetResponseStringFromResponse(res);
 
-            return html.ToString().Contains("Byggnationen har beordrats");
+            return htmlStr.Contains("Byggnationen har beordrats");
         }
 
         private CQ GetHeadQScreenHtml()
@@ -92,7 +92,7 @@ namespace TribalWarsBot.Services
             var buildingType = BuildingHelper.GetBuildingTypeFromString(builingName);
 
             var subString = item.FirstElementChild.InnerText.Split('\n')[1];
-            var lvl = int.Parse(RegExHelper.GetTextWithRegEx(@"([\d]+)", subString));
+            var lvl = RegExHelper.GetNumberWithRegEx(@"([\d]+)", subString);
             var id = GetBuildingQueueId(item);
             var buildingQueueItem = new BuildingQueueItem
             {
