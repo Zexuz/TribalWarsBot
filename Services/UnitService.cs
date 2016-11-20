@@ -7,7 +7,7 @@ using TribalWarsBot.Helpers;
 
 namespace TribalWarsBot.Services
 {
-    public class BarrackService
+    public class UnitService
     {
         public bool AddOrderToActiveQueue(RequestManager reqManager, Dictionary<Units, int> units, string token,
             int village)
@@ -29,7 +29,7 @@ namespace TribalWarsBot.Services
         public bool CancelOrderFromActiveQueue(RequestManager reqManager, int orderNr, string token, int village)
         {
             var url =
-                $"https://sv36.tribalwars.se/game.php?village={village}&screen=stable&ajaxaction=cancel&h={token}";
+                $"https://sv36.tribalwars.se/game.php?village={village}&screen=train&ajaxaction=cancel&h={token}";
             var postData = $"id={orderNr}";
             var res = reqManager.SendPOSTRequest(url, postData, null, null, true);
             var jsonRes = RequestManager.GetResponseStringFromResponse(res);
@@ -37,26 +37,37 @@ namespace TribalWarsBot.Services
             return jsonRes.Contains("success:true");
         }
 
-        public List<UnitQueueItem> GetActiveQueue(RequestManager reqManager, int village)
+        public List<UnitQueueItem> GetActiveQueueForBarracks(RequestManager reqManager, int village)
         {
-            var url = $"https://sv36.tribalwars.se/game.php?village={village}&screen=barracks";
+            return GetActiveQueue(reqManager,village,BuildingTypes.Barracks);
+        }
+        public List<UnitQueueItem> GetActiveQueueForStable(RequestManager reqManager, int village)
+        {
+            return GetActiveQueue(reqManager,village,BuildingTypes.Stable);
+        }
+
+        private static List<UnitQueueItem> GetActiveQueue(RequestManager reqManager, int village, BuildingTypes building)
+        {
+            var typeStr = BuildingHelper.GetNameForType(building);
+            var url = $"https://sv36.tribalwars.se/game.php?village={village}&screen={typeStr}";
             var res = reqManager.SendGETRequest(url, null, null, true);
             CQ htmlString = RequestManager.GetResponseStringFromResponse(res);
             var list = htmlString
-                .Select("#trainqueue_wrap_barracks tbody tr")
+                .Select($"#trainqueue_wrap_{typeStr} tbody tr")
                 .Where(ele => ele.ClassName.Length > 0)
-                .Select(GetUnitQueueItem);
+                .Select(ele =>GetUnitQueueItem(ele,typeStr));
 
             return list.ToList();
         }
 
-        private static int GetOrderQueueId(IDomObject item)
+        private static int GetOrderQueueId(IDomObject item, string building)
         {
-            var pattern = @"/game\.php\?village=\d+&screen=barracks&action=cancel&id=(\d+)";
-            return RegExHelper.GetNumberWithRegEx(pattern, item.OuterHTML);
+            var pattern = @"/game\.php\?village=\d+&screen=__building__&action=cancel&id=(\d+)";
+            var replacedString = pattern.Replace("__building__", building);
+            return RegExHelper.GetNumberWithRegEx(replacedString, item.OuterHTML);
         }
 
-        private static UnitQueueItem GetUnitQueueItem(IDomObject item)
+        private static UnitQueueItem GetUnitQueueItem(IDomObject item, string typeStr)
         {
             CQ itemCq = item.OuterHTML;
             var queantAndTypeStr = itemCq.Select("div.unit_sprite.unit_sprite_smaller").ToList().First();
@@ -73,7 +84,7 @@ namespace TribalWarsBot.Services
                 Quantity = quantity,
                 Type = type,
                 TimeLeft = timeUntillCompleete,
-                Id = GetOrderQueueId(item)
+                Id = GetOrderQueueId(item,typeStr)
             };
 
             return queueItem;

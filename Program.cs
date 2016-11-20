@@ -28,32 +28,18 @@ namespace TribalWarsBot
                 throw new Exception("_csrfToken or _currentVillage is not set!");
 
             Console.WriteLine("Login succeded!");
-            var barrackService = new BarrackService();
-            var list = barrackService.GetActiveQueue(reqCache.Manager, _rootObject.village.id);
-            foreach (var unitQueueItem in list)
+            var barrackService = new UnitService();
+
+            Console.WriteLine("barracks");
+            foreach (var item in barrackService.GetActiveQueueForBarracks(reqCache.Manager, _rootObject.village.id))
             {
-                Console.WriteLine(unitQueueItem);
+                Console.WriteLine(item);
             }
 
-            var dict = new Dictionary<Units, int>
+            Console.WriteLine("stable");
+            foreach (var item in barrackService.GetActiveQueueForStable(reqCache.Manager, _rootObject.village.id))
             {
-                {Units.Sword, 5}
-            };
-            barrackService.AddOrderToActiveQueue(reqCache.Manager, dict, _rootObject.csrf, _rootObject.village.id);
-            Console.WriteLine("----");
-            Console.WriteLine("added!");
-            foreach (var unitQueueItem in barrackService.GetActiveQueue(reqCache.Manager, _rootObject.village.id))
-            {
-                Console.WriteLine(unitQueueItem);
-            }
-
-            var orderId = barrackService.GetActiveQueue(reqCache.Manager, _rootObject.village.id).Last().Id;
-            barrackService.CancelOrderFromActiveQueue(reqCache.Manager, orderId, _rootObject.csrf, _rootObject.village.id);
-
-            Console.WriteLine("Remove");
-            foreach (var unitQueueItem in barrackService.GetActiveQueue(reqCache.Manager, _rootObject.village.id))
-            {
-                Console.WriteLine(unitQueueItem);
+                Console.WriteLine(item);
             }
 
             Environment.Exit(0);
@@ -86,7 +72,7 @@ namespace TribalWarsBot
 //            {
 //                {Units.Spear, 1}
 //            };
-//            new BarrackService(reqCache.Manager).AddOrderToActiveQueue(units, _rootObject.csrf, _rootObject.village.id);
+//            new UnitService(reqCache.Manager).AddOrderToActiveQueue(units, _rootObject.csrf, _rootObject.village.id);
 //            new BuildingService(reqManager).GetActiveBuilingQueue();
 
             /*   var eventSevice = new EventService(reqManager);
