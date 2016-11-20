@@ -91,7 +91,6 @@
     <Folder Include="Services" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app.config" />
     <Content Include="HttpRequest Data\attackResponseHtml.html" />
     <Content Include="HttpRequest Data\EventPage.html" />
     <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone.har" />

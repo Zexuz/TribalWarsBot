@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Threading;
+using System.Linq;
 using TribalWarsBot.Enums;
 using TribalWarsBot.Helpers;
 using TribalWarsBot.Services;
@@ -34,6 +34,28 @@ namespace TribalWarsBot
             {
                 Console.WriteLine(unitQueueItem);
             }
+
+            var dict = new Dictionary<Units, int>
+            {
+                {Units.Sword, 5}
+            };
+            barrackService.AddOrderToActiveQueue(reqCache.Manager, dict, _rootObject.csrf, _rootObject.village.id);
+            Console.WriteLine("----");
+            Console.WriteLine("added!");
+            foreach (var unitQueueItem in barrackService.GetActiveQueue(reqCache.Manager, _rootObject.village.id))
+            {
+                Console.WriteLine(unitQueueItem);
+            }
+
+            var orderId = barrackService.GetActiveQueue(reqCache.Manager, _rootObject.village.id).Last().Id;
+            barrackService.CancelOrderFromActiveQueue(reqCache.Manager, orderId, _rootObject.csrf, _rootObject.village.id);
+
+            Console.WriteLine("Remove");
+            foreach (var unitQueueItem in barrackService.GetActiveQueue(reqCache.Manager, _rootObject.village.id))
+            {
+                Console.WriteLine(unitQueueItem);
+            }
+
             Environment.Exit(0);
 
             /*foreach (var buildingQueueItem in new BuildingService(reqCache.Manager).GetActiveBuilingQueue())
