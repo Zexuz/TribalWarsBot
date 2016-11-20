@@ -50,10 +50,10 @@ namespace TribalWarsBot.Services
             return list.ToList();
         }
 
-        private static string GetOrderQueueId(IDomObject item)
+        private static int GetOrderQueueId(IDomObject item)
         {
             var pattern = @"/game\.php\?village=\d+&screen=barracks&action=cancel&id=(\d+)";
-            return RegExHelper.GetTextWithRegEx(pattern, item.OuterHTML);
+            return RegExHelper.GetNumberWithRegEx(pattern, item.OuterHTML);
         }
 
         private static UnitQueueItem GetUnitQueueItem(IDomObject item)
@@ -85,7 +85,7 @@ namespace TribalWarsBot.Services
         public Units Type { get; set; }
         public int Quantity { get; set; }
         public RegExHelper.Time TimeLeft { get; set; }
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public override string ToString()
         {
