@@ -45,6 +45,7 @@ namespace TribalWarsBot.Helpers
             }
         }
         public static Units GetTypeForString(string unit) {
+            unit = unit.ToLower();
             if (unit.Equals("spear")) return Units.Spear;
             if (unit.Equals("sword")) return Units.Sword;
             if (unit.Equals("axe")) return Units.Axe;

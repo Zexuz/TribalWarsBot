@@ -33,23 +33,20 @@ namespace TribalWarsBot {
 
             while (true) {
 
-                Console.WriteLine($"Sleeping for half hour, {DateTime.Now:hh:mm:ss}");
-                Thread.Sleep(60 * 60 *30 * 1000);
-
                 var villageCache = new WorldMapVillageCache();
                 var worldMapVillageService = new WorldMapVillageService(villageCache);
-                var barbarianVillages = worldMapVillageService.GetBarbarianVillagesInRange(4, 507, 530);
+                var barbarianVillages = worldMapVillageService.GetBarbarianVillagesInRange(5, 507, 530);
 
+                Console.WriteLine($"Nr of villages {barbarianVillages.Count}");
 
                 var attackService = new AttackService(reqCache.Manager);
+                var unitService = new UnitService();
 
                 foreach (var village in barbarianVillages) {
 
-
-
                     var planedAttack = new PlanedAttack {
                         Units = new Dictionary<Units, int> {
-                            {Units.Light, 5},
+                            {Units.Light, 4},
                             {Units.Spy, 1}
                         },
                         Attacker = _rootObject.village,
@@ -57,10 +54,23 @@ namespace TribalWarsBot {
                         EnemyVillageYCord = village.Y
                     };
 
+                    var unitsInVillageNow = unitService.GetMyUnitsInVillage(reqCache.Manager, _rootObject.village.id);
+                    var canSendAttack = true;
+                    foreach (var keyValuePair in planedAttack.Units) {
+                        if (unitsInVillageNow[keyValuePair.Key] < keyValuePair.Value) canSendAttack = false;
+                    }
+
+                    if (!canSendAttack) {
+                        Console.WriteLine("We don't have enough units to send the attack!");
+                        continue;
+                    }
 
                     attackService.SendAttack(_rootObject, planedAttack);
                     Thread.Sleep(200 + GetRandomInt(0, 500));
                 }
+
+                Console.WriteLine($"Sleeping for half hour, {DateTime.Now:hh:mm:ss}");
+                Thread.Sleep(60 *35 * 1000);
 
 
             }
