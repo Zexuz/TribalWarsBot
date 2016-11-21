@@ -11,7 +11,8 @@
         Ram,
         Catapult,
         Knight,
-        Snob
+        Snob,
+        Militia
 
     }
 
