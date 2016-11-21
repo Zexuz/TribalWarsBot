@@ -93,27 +93,12 @@
   <ItemGroup>
     <Folder Include="Domain\ValueObjects" />
     <Folder Include="Helpers" />
-    <Folder Include="HttpRequest Data\login" />
     <Folder Include="Screens" />
     <Folder Include="Screens\Structures" />
     <Folder Include="Services" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.config" />
-    <Content Include="HttpRequest Data\attackResponseHtml.html" />
-    <Content Include="HttpRequest Data\EventPage.html" />
-    <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone.har" />
-    <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone1.har" />
-    <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone12.har" />
-    <Content Include="HttpRequest Data\login\sv36.tribalwars.se.attackVillageConfirmDone123.har" />
-    <Content Include="HttpRequest Data\map.json" />
-    <Content Include="HttpRequest Data\RootObjectExample.json" />
-    <Content Include="HttpRequest Data\sv36.tribalwars.se.attackVillageConfirmDone.har" />
-    <Content Include="HttpRequest Data\sv36.tribalwars.se.attackVillageConfirmWait.har" />
-    <Content Include="HttpRequest Data\sv36.tribalwars.se.smithresearch.har" />
-    <Content Include="HttpRequest Data\Tribalwars login.har" />
-    <Content Include="HttpRequest Data\xd.HTML" />
-    <Content Include="HttpRequest Data\xd.js" />
     <Content Include="packages.config" />
     <Content Include="README.md" />
     <Content Include="Usefull links" />
