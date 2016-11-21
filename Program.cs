@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Threading;
-
 using TribalWarsBot.Cache;
 using TribalWarsBot.Domain;
 using TribalWarsBot.Enums;
 using TribalWarsBot.Helpers;
 using TribalWarsBot.Services;
 
-namespace TribalWarsBot {
-
-    internal class Program {
-
+namespace TribalWarsBot
+{
+    internal class Program
+    {
         private RootObject _rootObject;
 
-        private void Start() {
+        private void Start()
+        {
             var userName = ConfigurationManager.AppSettings["username"];
             var userPassword = ConfigurationManager.AppSettings["password"];
             var user = new User(userName, userPassword);
@@ -31,21 +31,23 @@ namespace TribalWarsBot {
 
             Console.WriteLine("Login succeded!");
 
-            while (true) {
-
+            while (true)
+            {
                 var villageCache = new WorldMapVillageCache();
                 var worldMapVillageService = new WorldMapVillageService(villageCache);
                 var barbarianVillages = worldMapVillageService.GetBarbarianVillagesInRange(5, 507, 530);
 
                 Console.WriteLine($"Nr of villages {barbarianVillages.Count}");
 
-                var attackService = new AttackService(reqCache.Manager);
+                var attackService = new AttackService();
                 var unitService = new UnitService();
 
-                foreach (var village in barbarianVillages) {
-
-                    var planedAttack = new PlanedAttack {
-                        Units = new Dictionary<Units, int> {
+                foreach (var village in barbarianVillages)
+                {
+                    var planedAttack = new PlanedAttack
+                    {
+                        Units = new Dictionary<Units, int>
+                        {
                             {Units.Light, 4},
                             {Units.Spy, 1}
                         },
@@ -56,23 +58,23 @@ namespace TribalWarsBot {
 
                     var unitsInVillageNow = unitService.GetMyUnitsInVillage(reqCache.Manager, _rootObject.village.id);
                     var canSendAttack = true;
-                    foreach (var keyValuePair in planedAttack.Units) {
+                    foreach (var keyValuePair in planedAttack.Units)
+                    {
                         if (unitsInVillageNow[keyValuePair.Key] < keyValuePair.Value) canSendAttack = false;
                     }
 
-                    if (!canSendAttack) {
+                    if (!canSendAttack)
+                    {
                         Console.WriteLine("We don't have enough units to send the attack!");
                         continue;
                     }
 
-                    attackService.SendAttack(_rootObject, planedAttack);
+                    attackService.SendAttack(reqCache.Manager, _rootObject, planedAttack);
                     Thread.Sleep(200 + GetRandomInt(0, 500));
                 }
 
                 Console.WriteLine($"Sleeping for half hour, {DateTime.Now:hh:mm:ss}");
-                Thread.Sleep(60 *35 * 1000);
-
-
+                Thread.Sleep(60 * 35 * 1000);
             }
 
             #region Comments....
@@ -205,16 +207,16 @@ namespace TribalWarsBot {
             #endregion
         }
 
-        private int GetRandomInt(int min, int max) {
+        private int GetRandomInt(int min, int max)
+        {
             var random = new Random();
             return random.Next(min, max);
         }
 
 
-        public static void Main(string[] args) {
+        public static void Main(string[] args)
+        {
             new Program().Start();
         }
-
     }
-
 }
