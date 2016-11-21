@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\RequestCache.cs" />
     <Compile Include="Cache\WorldMapPlayerCache.cs" />
     <Compile Include="Cache\WorldMapVillageCache.cs" />
     <Compile Include="Domain\Attack.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Domain\ValueObjects\User.cs" />
     <Compile Include="Enums\AttackStatus.cs" />
     <Compile Include="Enums\BuildingTypes.cs" />
+    <Compile Include="Enums\ResourceTypes.cs" />
     <Compile Include="Enums\Units.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\BuildingHelper.cs" />
@@ -82,8 +84,8 @@
     <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\MapService.cs" />
     <Compile Include="Services\PlayerService.cs" />
+    <Compile Include="Services\ReportService.cs" />
     <Compile Include="Services\RequestManager.cs" />
-    <Compile Include="Services\RequestCache.cs" />
     <Compile Include="Services\UnitService.cs" />
     <Compile Include="Services\WorldMapPlayerService.cs" />
     <Compile Include="Services\WorldMapVillageService.cs" />
@@ -94,6 +96,7 @@
     <Folder Include="HttpRequest Data\login" />
     <Folder Include="Screens" />
     <Folder Include="Screens\Structures" />
+    <Folder Include="Services" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.config" />

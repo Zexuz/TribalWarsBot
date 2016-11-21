@@ -6,18 +6,20 @@ namespace TribalWarsBot.Helpers
 {
     public class UnitHelper
     {
-        public static string GetUnitQueryStringFromUnitDict(Dictionary<Units, int> units) {
-
+        public static string GetUnitQueryStringFromUnitDict(Dictionary<Units, int> units)
+        {
             var str = "";
 
-            foreach (var keyValuePair in units) {
+            foreach (var keyValuePair in units)
+            {
                 str += $"{GetNameForType(keyValuePair.Key)}={keyValuePair.Value}&";
             }
 
             return str;
         }
 
-        public static string GetNameForType(Units unit) {
+        public static string GetNameForType(Units unit)
+        {
             switch (unit)
             {
                 case Units.Spear:
@@ -40,11 +42,15 @@ namespace TribalWarsBot.Helpers
                     return "knigth";
                 case Units.Snob:
                     return "snob";
+                case Units.Militia:
+                    return "militia";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(unit), unit, null);
             }
         }
-        public static Units GetTypeForString(string unit) {
+
+        public static Units GetTypeForString(string unit)
+        {
             unit = unit.ToLower();
             if (unit.Equals("spear")) return Units.Spear;
             if (unit.Equals("sword")) return Units.Sword;
@@ -56,6 +62,7 @@ namespace TribalWarsBot.Helpers
             if (unit.Equals("catapult")) return Units.Catapult;
             if (unit.Equals("knight")) return Units.Knight;
             if (unit.Equals("snob")) return Units.Snob;
+            if (unit.Equals("militia")) return Units.Militia;
 
             throw new Exception("Invalid unit");
         }

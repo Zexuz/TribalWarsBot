@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 using CsQuery;
@@ -26,6 +28,14 @@ namespace TribalWarsBot {
                 throw new Exception("Did not find a level");
 
             return int.Parse(match.Groups[1].Value);
+        }
+
+        public static IDomElement GetElementFromHtmlTable(List<IDomObject> table, int row, int col)
+        {
+            var chidlEle = table[row].ChildElements;
+            var list = chidlEle.ToList();
+            var ele = list[col];
+            return ele;
         }
 
     }

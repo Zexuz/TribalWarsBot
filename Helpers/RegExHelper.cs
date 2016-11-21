@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace TribalWarsBot.Helpers
@@ -11,7 +12,7 @@ namespace TribalWarsBot.Helpers
             var match = regEx.Match(text);
 
             if (!match.Success)
-                throw new Exception("Did not find the building id");
+                throw new Exception($"Did not find a regex match. Pattern {pattern}, text:{text}");
 
             return match.Groups[1].Value;
         }
@@ -20,6 +21,11 @@ namespace TribalWarsBot.Helpers
         {
             return int.Parse(GetTextWithRegEx(pattern, text));
         }
+        public static double GetdoubleWithRegEx(string pattern, string text)
+        {
+            return double.Parse(GetTextWithRegEx(pattern, text), CultureInfo.InvariantCulture);
+        }
+
 
         public static Time GetTimeFromString(string text)
         {
