@@ -29,7 +29,15 @@ namespace TribalWarsBot
             if (_rootObject.csrf == null || _rootObject.village.id == 0)
                 throw new Exception("_csrfToken or _currentVillage is not set!");
 
+            var villageId = _rootObject.village.id;
             Console.WriteLine("Login succeded!");
+
+
+            var reportService = new ReportService();
+            var reportItems = reportService.GetReportItemsFrom(reqCache.Manager, 0, villageId);
+            reportService.GetReport(reqCache.Manager, villageId, reportItems[0].Id);
+
+            Environment.Exit(0);
 
             while (true)
             {
